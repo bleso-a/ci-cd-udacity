@@ -2,20 +2,16 @@
 version: 2.1
 # Use a package of configuration called an orb.
 # Orchestrate or schedule a set of jobs
-commands:
-  print_pipeline_id:
-    parameters:
-      id:
-        type: string
-    steps:
-      - run: echo << parameter.id >>
 jobs:
   my_job:
     docker:
-      - image: circleci/node13.8.0
+      - image: circleci/node:13.8.0
     steps:
-      - print_pipeline_id:
-        id: << pipeline.id >>
+      - run: return 1
+      - run:
+          name: on error
+          command: echo "Hello Error!"
+          when: on _fail
 workflows:
   my_workflow:
     jobs:
